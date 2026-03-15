@@ -1,0 +1,13 @@
+<h2 class="mb-2">Jokes List</h2>
+
+<p class="mb-4">
+  Overall stats: {{ totalVotes }} votes (😂 {{ totalLikes }}, 😕 {{ totalDislikes }})
+</p>
+
+<hr class="mb-4">
+
+<app-joke-item
+  *ngFor="let joke of jokes"
+  [joke]="joke"
+  (voted)="onVote($event)"
+></app-joke-item>

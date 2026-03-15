@@ -1,0 +1,29 @@
+<div class="mb-5">
+  <div class="d-flex justify-content-between align-items-start">
+    <div>
+      <h5 class="fw-bold mb-3">By: {{ joke.username }}</h5>
+
+      <div class="d-flex align-items-center gap-2 flex-wrap mb-3">
+        <button type="button" class="btn btn-sm btn-outline-success" (click)="vote('like')">
+          😂 {{ joke.likes }}
+        </button>
+
+        <button type="button" class="btn btn-sm btn-outline-danger" (click)="vote('dislike')">
+          😕 {{ joke.dislikes }}
+        </button>
+
+        <span *ngIf="isApproved" class="badge text-bg-primary fs-6">
+          🤩 Community Approved
+        </span>
+      </div>
+    </div>
+
+    <div class="fs-2" [class.text-success]="score >= 0" [class.text-danger]="score < 0">
+      {{ score }}
+    </div>
+  </div>
+
+  <div class="mt-2">
+    <p class="mb-2" *ngFor="let line of lines">- {{ line }}</p>
+  </div>
+</div>

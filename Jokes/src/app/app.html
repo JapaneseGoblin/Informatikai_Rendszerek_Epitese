@@ -1,0 +1,15 @@
+<div class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-10 col-lg-8">
+      <app-joke-form (jokeCreated)="addJoke($event)"></app-joke-form>
+
+      <app-joke-list
+        [jokes]="jokes"
+        [totalLikes]="totalLikes"
+        [totalDislikes]="totalDislikes"
+        [totalVotes]="totalVotes"
+        (voted)="vote($event)"
+      ></app-joke-list>
+    </div>
+  </div>
+</div>
