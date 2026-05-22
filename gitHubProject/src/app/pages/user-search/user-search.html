@@ -1,0 +1,34 @@
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Felhasználó keresés</h1>
+
+  <div class="flex gap-2 mb-6">
+    <input
+      [(ngModel)]="query"
+      (keyup.enter)="search()"
+      type="text"
+      placeholder="GitHub felhasználónév..."
+      class="flex-1 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+    <button
+      (click)="search()"
+      class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+      Keresés
+    </button>
+  </div>
+
+  @if (loading) {
+    <p class="text-gray-500">Betöltés...</p>
+  }
+
+  @if (searched && users.length === 0) {
+    <p class="text-gray-500">Nincs találat.</p>
+  }
+
+  @for (user of users; track user.id) {
+    <a [routerLink]="['/user', user.login]"
+       class="flex items-center gap-4 p-4 border border-gray-200 rounded mb-2 hover:bg-gray-50 cursor-pointer">
+      <img [src]="user.avatar_url" [alt]="user.login" class="w-12 h-12 rounded-full" />
+      <span class="font-medium">{{ user.login }}</span>
+    </a>
+  }
+</div>

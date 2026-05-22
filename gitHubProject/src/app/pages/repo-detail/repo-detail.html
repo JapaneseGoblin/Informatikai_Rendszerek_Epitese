@@ -1,0 +1,78 @@
+<div class="max-w-2xl mx-auto">
+  @if (loading) {
+    <p class="text-gray-500">Betöltés...</p>
+  }
+
+  @if (repo) {
+    <div class="mb-6">
+      <h1 class="text-2xl font-bold flex items-center gap-2">
+        <mat-icon>folder</mat-icon>
+        {{ repo.full_name }}
+      </h1>
+
+      @if (repo.description) {
+        <p class="text-gray-600 mt-2">{{ repo.description }}</p>
+      }
+
+      <a [href]="repo.html_url" target="_blank"
+         class="inline-flex items-center gap-1 mt-3 text-blue-600 hover:underline text-sm">
+        <mat-icon class="text-base">open_in_new</mat-icon>
+        Megnyitás GitHubon
+      </a>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="p-4 border border-gray-200 rounded flex items-center gap-3">
+        <mat-icon>star</mat-icon>
+        <div>
+          <div class="text-sm text-gray-500">Csillagok</div>
+          <div class="font-semibold">{{ repo.stargazers_count }}</div>
+        </div>
+      </div>
+
+      <div class="p-4 border border-gray-200 rounded flex items-center gap-3">
+        <mat-icon>fork_right</mat-icon>
+        <div>
+          <div class="text-sm text-gray-500">Forkok</div>
+          <div class="font-semibold">{{ repo.forks_count }}</div>
+        </div>
+      </div>
+
+      <div class="p-4 border border-gray-200 rounded flex items-center gap-3">
+        <mat-icon>visibility</mat-icon>
+        <div>
+          <div class="text-sm text-gray-500">Watchers</div>
+          <div class="font-semibold">{{ repo.watchers_count }}</div>
+        </div>
+      </div>
+
+      <div class="p-4 border border-gray-200 rounded flex items-center gap-3">
+        <mat-icon>bug_report</mat-icon>
+        <div>
+          <div class="text-sm text-gray-500">Nyitott issue-k</div>
+          <div class="font-semibold">{{ repo.open_issues_count }}</div>
+        </div>
+      </div>
+
+      @if (repo.language) {
+        <div class="p-4 border border-gray-200 rounded flex items-center gap-3">
+          <mat-icon>code</mat-icon>
+          <div>
+            <div class="text-sm text-gray-500">Nyelv</div>
+            <div class="font-semibold">{{ repo.language }}</div>
+          </div>
+        </div>
+      }
+
+      @if (repo.license) {
+        <div class="p-4 border border-gray-200 rounded flex items-center gap-3">
+          <mat-icon>gavel</mat-icon>
+          <div>
+            <div class="text-sm text-gray-500">Licenc</div>
+            <div class="font-semibold">{{ repo.license.name }}</div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,37 @@
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Repository keresés</h1>
+
+  <div class="flex gap-2 mb-6">
+    <input
+      [(ngModel)]="query"
+      (keyup.enter)="search()"
+      type="text"
+      placeholder="Repository neve..."
+      class="flex-1 border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+    />
+    <button
+      (click)="search()"
+      class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+      Keresés
+    </button>
+  </div>
+
+  @if (loading) {
+    <p class="text-gray-500">Betöltés...</p>
+  }
+
+  @if (searched && repos.length === 0) {
+    <p class="text-gray-500">Nincs találat.</p>
+  }
+
+  @for (repo of repos; track repo.id) {
+    <a [routerLink]="['/repo', repo.owner.login, repo.name]"
+       class="block p-4 border border-gray-200 rounded mb-2 hover:bg-gray-50 cursor-pointer">
+      <div class="font-medium">{{ repo.full_name }}</div>
+      @if (repo.description) {
+        <div class="text-sm text-gray-500 mt-1">{{ repo.description }}</div>
+      }
+      <div class="text-xs text-gray-400 mt-1">⭐ {{ repo.stargazers_count }}</div>
+    </a>
+  }
+</div>
