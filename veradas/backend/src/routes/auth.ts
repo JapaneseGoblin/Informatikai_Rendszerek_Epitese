@@ -4,7 +4,7 @@ import { User } from '../entity/User';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-export const JWT_SECRET = 'drakula_secret_key';
+export const JWT_SECRET = 'bb5a1f90-051e-489b-931f-0dd0f1636abe';
 
 const router = Router();
 const repo = AppDataSource.getRepository(User);
