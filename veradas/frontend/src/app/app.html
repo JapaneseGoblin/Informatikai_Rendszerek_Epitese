@@ -1,0 +1,18 @@
+<nav class="bg-red-700 text-white shadow-md">
+  <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <a routerLink="/" class="text-xl font-bold tracking-wide hover:opacity-90">Dr. Drakula</a>
+    </div>
+    <div class="flex gap-6 text-sm font-medium items-center">
+      <a routerLink="/admin/locations" routerLinkActive="underline" class="hover:underline">Helyszínek</a>
+      <a routerLink="/admin/donors" routerLinkActive="underline" class="hover:underline">Véradók</a>
+      <a *ngIf="authService.isLoggedIn()" routerLink="/admin/donations/new" routerLinkActive="underline" class="hover:underline">Véradás rögzítése</a>
+      <a routerLink="/admin/donations" routerLinkActive="underline" class="hover:underline">Véradások</a>
+      <a routerLink="/admin/leaderboard" routerLinkActive="underline" class="hover:underline">Ranglista</a>
+      <a *ngIf="!authService.isLoggedIn()" routerLink="/login" class="bg-white text-red-700 px-3 py-1 rounded hover:bg-gray-100 font-semibold">Bejelentkezés</a>
+      <button *ngIf="authService.isLoggedIn()" (click)="logout()" class="bg-white text-red-700 px-3 py-1 rounded hover:bg-gray-100 font-semibold">Kijelentkezés</button>
+    </div>
+  </div>
+</nav>
+
+<router-outlet />

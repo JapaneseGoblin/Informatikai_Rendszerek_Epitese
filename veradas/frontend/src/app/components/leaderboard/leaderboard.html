@@ -1,0 +1,32 @@
+<div class="max-w-2xl mx-auto py-12 px-4">
+  <h1 class="text-2xl font-bold text-red-700 mb-6">Ranglista</h1>
+
+  <div *ngIf="error" class="text-red-600 text-sm mb-4">{{ error }}</div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-red-700 text-white uppercase text-xs">
+        <tr>
+          <th class="px-4 py-3 text-left">Helyezés</th>
+          <th class="px-4 py-3 text-left">Név</th>
+          <th class="px-4 py-3 text-left">Véradások száma</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <tr *ngFor="let entry of entries; let i = index" [class]="i === 0 ? 'bg-yellow-50' : i === 1 ? 'bg-gray-50' : i === 2 ? 'bg-orange-50' : ''">
+          <td class="px-4 py-3 font-bold">
+            <span *ngIf="i === 0" class="text-yellow-500">1.</span>
+            <span *ngIf="i === 1" class="text-gray-400">2.</span>
+            <span *ngIf="i === 2" class="text-orange-400">3.</span>
+            <span *ngIf="i > 2">{{ i + 1 }}.</span>
+          </td>
+          <td class="px-4 py-3 font-medium">{{ entry.name }}</td>
+          <td class="px-4 py-3">{{ entry.count }}</td>
+        </tr>
+        <tr *ngIf="entries.length === 0">
+          <td colspan="3" class="px-4 py-6 text-center text-gray-400">Nincs adat</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

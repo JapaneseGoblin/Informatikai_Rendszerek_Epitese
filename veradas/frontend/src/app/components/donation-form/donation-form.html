@@ -1,0 +1,73 @@
+<div class="max-w-2xl mx-auto py-12 px-4">
+  <h1 class="text-2xl font-bold text-red-700 mb-6">Véradás rögzítése</h1>
+
+  <div class="bg-white rounded-lg shadow p-6 space-y-5">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Helyszín</label>
+      <select [(ngModel)]="form.location_id" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+        <option [ngValue]="undefined">Válasszon helyszínt</option>
+        <option *ngFor="let loc of locations" [ngValue]="loc.id">{{ loc.name }} - {{ loc.address }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Véradó</label>
+      <select [(ngModel)]="form.donor_id" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+        <option [ngValue]="undefined">Válasszon véradót</option>
+        <option *ngFor="let donor of donors" [ngValue]="donor.id">{{ donor.name }} - {{ donor.taj_number }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Véradás dátuma</label>
+      <input [(ngModel)]="form.date" type="date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Orvos neve</label>
+      <input [(ngModel)]="form.doctor_name" type="text" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-2">Alkalmasság</label>
+      <div class="flex gap-4">
+        <label class="flex items-center gap-2">
+          <input type="radio" [value]="true" [(ngModel)]="form.is_suitable" (change)="onSuitableChange()" />
+          Alkalmas
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" [value]="false" [(ngModel)]="form.is_suitable" (change)="onSuitableChange()" />
+          Nem alkalmas
+        </label>
+      </div>
+    </div>
+
+    <div *ngIf="!form.is_suitable">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Alkalmatlanság oka</label>
+      <input [(ngModel)]="form.unsuitable_reason" type="text" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" />
+    </div>
+
+    <div *ngIf="form.is_suitable">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" [(ngModel)]="form.is_directed" (change)="onDirectedChange()" />
+        <span class="text-sm font-medium text-gray-700">Irányított véradás</span>
+      </label>
+    </div>
+
+    <div *ngIf="form.is_directed && form.is_suitable" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Beteg neve</label>
+        <input [(ngModel)]="form.patient_name" type="text" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Beteg TAJ száma</label>
+        <input [(ngModel)]="form.patient_taj" type="text" maxlength="9" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" />
+      </div>
+    </div>
+
+    <div *ngIf="error" class="text-red-600 text-sm">{{ error }}</div>
+    <div *ngIf="success" class="text-green-600 text-sm">{{ success }}</div>
+
+    <button (click)="submit()" class="w-full bg-red-700 text-white px-4 py-2 rounded hover:bg-red-800">Mentés</button>
+  </div>
+</div>

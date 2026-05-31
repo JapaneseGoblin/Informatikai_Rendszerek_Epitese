@@ -1,0 +1,83 @@
+<div class="max-w-5xl mx-auto py-12 px-4">
+  <h1 class="text-2xl font-bold text-red-700 mb-6">Sikeres véradások</h1>
+
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h2 class="text-xl font-semibold text-gray-700 mb-4">Szűrés</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Helyszín</label>
+        <select [(ngModel)]="filters.location_id" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+          <option [ngValue]="undefined">Mind</option>
+          <option *ngFor="let loc of locations" [ngValue]="loc.id">{{ loc.name }}</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Véradó</label>
+        <select [(ngModel)]="filters.donor_id" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500">
+          <option [ngValue]="undefined">Mind</option>
+          <option *ngFor="let donor of donors" [ngValue]="donor.id">{{ donor.name }}</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Dátumtól</label>
+        <input [(ngModel)]="filters.date_from" type="date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Dátumig</label>
+        <input [(ngModel)]="filters.date_to" type="date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500" />
+      </div>
+    </div>
+    <div class="mt-4 flex gap-2">
+      <button (click)="load()" class="bg-red-700 text-white px-4 py-2 rounded hover:bg-red-800">Szűrés</button>
+      <button (click)="reset()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">Visszaállítás</button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="mb-4 text-red-600 text-sm">{{ error }}</div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-red-700 text-white uppercase text-xs">
+        <tr>
+          <th class="px-4 py-3 text-left">Dátum</th>
+          <th class="px-4 py-3 text-left">Helyszín</th>
+          <th class="px-4 py-3 text-left">Véradó</th>
+          <th class="px-4 py-3 text-left">Orvos</th>
+          <th class="px-4 py-3 text-left">Irányított</th>
+          <th class="px-4 py-3 text-left">Beteg</th>
+          <th *ngIf="authService.isLoggedIn()" class="px-4 py-3 text-left">Műveletek</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+        <tr *ngFor="let d of donations">
+          <td class="px-4 py-3">{{ d.date }}</td>
+          <td class="px-4 py-3">{{ d.location_name }}</td>
+          <td class="px-4 py-3">{{ d.donor_name }}</td>
+          <td class="px-4 py-3">{{ d.doctor_name }}</td>
+          <td class="px-4 py-3">{{ d.is_directed ? 'Igen' : 'Nem' }}</td>
+          <td class="px-4 py-3">
+            <span *ngIf="d.is_directed">{{ d.patient_name }} ({{ d.patient_taj }})</span>
+            <span *ngIf="!d.is_directed">-</span>
+          </td>
+          <td *ngIf="authService.isLoggedIn()" class="px-4 py-3">
+            <button (click)="confirmDelete(d)" class="text-gray-400 hover:text-red-700 text-sm">Törlés</button>
+          </td>
+        </tr>
+        <tr *ngIf="donations.length === 0">
+          <td [colSpan]="authService.isLoggedIn() ? 7 : 6" class="px-4 py-6 text-center text-gray-400">Nincs találat</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="deleteTarget" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full mx-4">
+    <h2 class="text-lg font-semibold text-gray-800 mb-2">Törlés megerősítése</h2>
+    <p class="text-gray-600 mb-6">Biztosan törlöd a <span class="font-semibold">{{ deleteTarget.date }}</span> dátumú véradást?</p>
+    <div class="flex gap-3 justify-end">
+      <button (click)="cancelDelete()" class="px-4 py-2 rounded bg-gray-200 text-gray-700 hover:bg-gray-300">Nem</button>
+      <button (click)="doDelete()" class="px-4 py-2 rounded bg-red-700 text-white hover:bg-red-800">Igen</button>
+    </div>
+  </div>
+</div>
