@@ -10,8 +10,9 @@ export const unauthorizedInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((err) => {
       if (err instanceof HttpErrorResponse && err.status === 401) {
-        authService.removeToken();
-        authService.logout();
+        if (!req.url.includes('/api/auth')) {
+          authService.logout();
+        }
       }
       return throwError(() => err);
     })

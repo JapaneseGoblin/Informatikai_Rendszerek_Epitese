@@ -1,5 +1,5 @@
 <div class="max-w-5xl mx-auto py-12 px-4">
-  <h1 class="text-2xl font-bold text-red-700 mb-6">Sikeres véradások</h1>
+  <h1 class="text-2xl font-bold text-red-700 mb-6">Véradások</h1>
 
   <div class="bg-white rounded-lg shadow p-6 mb-6">
     <h2 class="text-xl font-semibold text-gray-700 mb-4">Szűrés</h2>
@@ -43,17 +43,25 @@
           <th class="px-4 py-3 text-left">Helyszín</th>
           <th class="px-4 py-3 text-left">Véradó</th>
           <th class="px-4 py-3 text-left">Orvos</th>
+          <th class="px-4 py-3 text-left">Alkalmas</th>
+          <th class="px-4 py-3 text-left">Ok</th>
           <th class="px-4 py-3 text-left">Irányított</th>
           <th class="px-4 py-3 text-left">Beteg</th>
           <th *ngIf="authService.isLoggedIn()" class="px-4 py-3 text-left">Műveletek</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200">
-        <tr *ngFor="let d of donations">
+        <tr *ngFor="let d of donations" [class]="d.is_suitable ? '' : 'bg-red-50'">
           <td class="px-4 py-3">{{ d.date }}</td>
           <td class="px-4 py-3">{{ d.location_name }}</td>
           <td class="px-4 py-3">{{ d.donor_name }}</td>
           <td class="px-4 py-3">{{ d.doctor_name }}</td>
+          <td class="px-4 py-3">
+            <span [class]="d.is_suitable ? 'bg-green-100 text-green-700 px-2 py-1 rounded text-xs' : 'bg-red-100 text-red-700 px-2 py-1 rounded text-xs'">
+              {{ d.is_suitable ? 'Igen' : 'Nem' }}
+            </span>
+          </td>
+          <td class="px-4 py-3">{{ d.unsuitable_reason || '-' }}</td>
           <td class="px-4 py-3">{{ d.is_directed ? 'Igen' : 'Nem' }}</td>
           <td class="px-4 py-3">
             <span *ngIf="d.is_directed">{{ d.patient_name }} ({{ d.patient_taj }})</span>
@@ -64,7 +72,7 @@
           </td>
         </tr>
         <tr *ngIf="donations.length === 0">
-          <td [colSpan]="authService.isLoggedIn() ? 7 : 6" class="px-4 py-6 text-center text-gray-400">Nincs találat</td>
+          <td [colSpan]="authService.isLoggedIn() ? 9 : 8" class="px-4 py-6 text-center text-gray-400">Nincs találat</td>
         </tr>
       </tbody>
     </table>

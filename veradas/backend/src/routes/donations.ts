@@ -29,14 +29,18 @@ router.get('/leaderboard', async (req: Request, res: Response) => {
   }
 });
 
+router.get('/debug', async (req: Request, res: Response) => {
+  const all = await repo.find();
+  res.json(all);
+});
+
 router.get('/', async (req: Request, res: Response) => {
   try {
     const { location_id, donor_id, date_from, date_to } = req.query;
 
     const qb = repo.createQueryBuilder('donation')
       .leftJoinAndSelect('donation.location', 'location')
-      .leftJoinAndSelect('donation.donor', 'donor')
-      .where('donation.is_suitable = :suitable', { suitable: 1 });
+      .leftJoinAndSelect('donation.donor', 'donor');
 
     if (location_id) qb.andWhere('location.id = :location_id', { location_id });
     if (donor_id) qb.andWhere('donor.id = :donor_id', { donor_id });
